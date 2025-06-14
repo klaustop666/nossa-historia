@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nossa História</title>
+  <style>
+    body {
+      background-color: #ffeef5;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 30px;
+      color: #a1005a;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    .imagem {
+      margin: 20px auto;
+      max-width: 90%;
+      border-radius: 20px;
+      box-shadow: 0 0 15px #ffb6c1;
+    }
+    audio {
+      margin-top: 20px;
+      border-radius: 30px;
+      background: #fff;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+    .contador {
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #a1005a;
+    }
+    .rodape {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Nossa História</h1>
+
+  <img class="imagem" src="A_comic-style_illustration_titled_Nossa_História.png" alt="Nossa História - Gibi Romântico" />
+
+  <audio autoplay controls>
+    <source src="WhatsApp Audio 2025-06-13 at 9.37.02 PM.mpeg" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div class="contador" id="contador"></div>
+
+  <div class="rodape" id="data-criacao"></div>
+
+  <script>
+    const dataInicio = new Date("2022-06-14T22:38:37");
+
+    function atualizarContador() {
+      const agora = new Date();
+      let anos = agora.getFullYear() - dataInicio.getFullYear();
+      let meses = agora.getMonth() - dataInicio.getMonth();
+      let dias = agora.getDate() - dataInicio.getDate();
+      let horas = agora.getHours() - dataInicio.getHours();
+      let minutos = agora.getMinutes() - dataInicio.getMinutes();
+      let segundos = agora.getSeconds() - dataInicio.getSeconds();
+
+      if (segundos < 0) { segundos += 60; minutos--; }
+      if (minutos < 0) { minutos += 60; horas--; }
+      if (horas < 0) { horas += 24; dias--; }
+      if (dias < 0) { 
+        const diasNoMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
+        dias += diasNoMesAnterior;
+        meses--; 
+      }
+      if (meses < 0) { meses += 12; anos--; }
+
+      const contador = document.getElementById("contador");
+      if (contador) {
+        contador.innerText = `Estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💖`;
+      }
+    }
+
+    setInterval(atualizarContador, 1000);
+    atualizarContador();
+
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleString('pt-BR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    const rodape = document.getElementById("data-criacao");
+    if (rodape) {
+      rodape.innerText = `Criado com amor em ${dataFormatada}`;
+    }
+  </script>
+</body>
+</html>
