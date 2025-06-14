@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nossa História</title>
+
+  <!-- Fonte romântica -->
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
   <style>
     body {
       background-color: #ffeef5;
@@ -11,16 +15,36 @@
       text-align: center;
       padding: 30px;
       color: #a1005a;
+      overflow-x: hidden;
+      position: relative;
     }
+
     h1 {
-      font-size: 2.5em;
+      font-family: 'Parisienne', cursive;
+      font-size: 3em;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards;
     }
+
+    .mensagem {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+      min-height: 50px;
+      font-weight: bold;
+      color: #c2006a;
+      animation: fadeIn 2s ease-in 1s forwards;
+    }
+
     .imagem {
       margin: 20px auto;
       max-width: 90%;
       border-radius: 20px;
       box-shadow: 0 0 15px #ffb6c1;
+      opacity: 0;
+      animation: fadeIn 2s ease-in 1.5s forwards;
     }
+
     audio {
       margin-top: 20px;
       border-radius: 30px;
@@ -28,21 +52,75 @@
       padding: 10px;
       width: 90%;
       max-width: 400px;
+      box-shadow: 0 0 10px #ffccdd;
     }
+
     .contador {
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 1.3em;
       color: #a1005a;
+      opacity: 0;
+      animation: fadeIn 2s ease-in 2s forwards;
     }
+
     .rodape {
       margin-top: 30px;
       font-size: 0.9em;
       color: #888;
+      opacity: 0;
+      animation: fadeIn 2s ease-in 2.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Coração batendo */
+    .heart {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      background: red;
+      transform: rotate(-45deg);
+      animation: beat 1s infinite;
+      z-index: -1;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 30px;
+      height: 30px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 15px;
+      top: 0;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.2); }
     }
   </style>
 </head>
+
 <body>
+  <div class="heart"></div>
+
   <h1>Nossa História</h1>
+
+  <div class="mensagem" id="mensagem"></div>
 
   <img class="imagem" src="A_comic-style_illustration_titled_Nossa_História.png" alt="Nossa História - Gibi Romântico" />
 
@@ -56,6 +134,19 @@
   <div class="rodape" id="data-criacao"></div>
 
   <script>
+    // Digitação animada
+    const texto = "Cada segundo com você é uma página dessa linda história...";
+    let i = 0;
+    function digitar() {
+      if (i < texto.length) {
+        document.getElementById("mensagem").innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(digitar, 50);
+      }
+    }
+    digitar();
+
+    // Contador romântico
     const dataInicio = new Date("2022-06-14T22:38:37");
 
     function atualizarContador() {
@@ -70,36 +161,27 @@
       if (segundos < 0) { segundos += 60; minutos--; }
       if (minutos < 0) { minutos += 60; horas--; }
       if (horas < 0) { horas += 24; dias--; }
-      if (dias < 0) { 
+      if (dias < 0) {
         const diasNoMesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0).getDate();
         dias += diasNoMesAnterior;
-        meses--; 
+        meses--;
       }
       if (meses < 0) { meses += 12; anos--; }
 
-      const contador = document.getElementById("contador");
-      if (contador) {
-        contador.innerText = `Estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💖`;
-      }
+      document.getElementById("contador").innerText =
+        `Estamos juntos há ${anos} anos, ${meses} meses, ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos 💖`;
     }
 
     setInterval(atualizarContador, 1000);
     atualizarContador();
 
+    // Data no rodapé
     const agora = new Date();
     const dataFormatada = agora.toLocaleString('pt-BR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
     });
-
-    const rodape = document.getElementById("data-criacao");
-    if (rodape) {
-      rodape.innerText = `Criado com amor em ${dataFormatada}`;
-    }
+    document.getElementById("data-criacao").innerText = `Criado com amor em ${dataFormatada}`;
   </script>
 </body>
 </html>
